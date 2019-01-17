@@ -1,0 +1,3 @@
+{"Code":{},"Status":{},"level":"info","msg":"service is ok","time":"2019-01-17T14:53:37+08:00"}
+{"Code":{},"Status":{},"level":"error","msg":"Get http://127.0.0.1:8080/configfiles/json%01/default/: dial tcp 127.0.0.1:8080: getsockopt: connection refused","time":"2019-01-17T18:02:04+08:00"}
+{"Code":{},"Status":{},"level":"error","msg":"Get http://127.0.0.1:8080/configfiles/json/1/default/: dial tcp 127.0.0.1:8080: getsockopt: connection refused","time":"2019-01-17T18:03:16+08:00"}
