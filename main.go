@@ -1,6 +1,7 @@
 package main
 import(
-	"client/src"
+	"plugin/src"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -12,5 +13,13 @@ func main() {
 	if err != nil{
 		panic(err)
 	}
-	src.ApolloClient(s,l)
+	r := gin.Default()
+	r.GET("/metrics",func(c *gin.Context){
+		data := src.ApolloClient(s,l)
+		if data == nil{
+			c.JSON(200,gin.H{"message":"error"})
+		}
+		c.String(200,src.Statis(data))
+	})
+	r.Run()
 }

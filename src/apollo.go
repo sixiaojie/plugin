@@ -4,21 +4,15 @@ import (
 	"net/http"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"time"
 )
 
-type item map[string]string
 
-type MonitorConfig struct {
-	Item item
-} 
-
-func ApolloClient(c *ServiceConfg, l *logrus.Logger){
-	v := &MonitorConfig{}
+func ApolloClient(c *ServiceConfg, l *logrus.Logger)(map[string]string){
 	e := LogFormat{}
 	url := "http://" + c.Server + "/configfiles/json/" + c.Appid + "/" + c.ClusterName + "/" + c.NamespaceName
-	fmt.Println(url)
 	resp,err := http.Get(url)
 	if err != nil{
 		e.Code = 500
@@ -28,14 +22,37 @@ func ApolloClient(c *ServiceConfg, l *logrus.Logger){
 	defer resp.Body.Close()
 	body,err := ioutil.ReadAll(resp.Body)
 	if err != nil{
-		fmt.Println(err)
+		e.Code = 501
+		e.Status = "http body read failed"
+		e.Error(l,err.Error())
 	}else {
-		fmt.Println(string(body))
-		err := json.Unmarshal(body,v)
+		data,err := JsonUnMarshal(body)
+		//fmt.Println(data)
 		if err != nil{
-			fmt.Println(err.Error())
+			e.Code = 502
+			e.Status = "json unmarshal http body failed"
+			e.Error(l,"json body data is unmarsha failed")
 		}else{
-			fmt.Println(v)
+			a,err := JsonUnMarshal([]byte(data["monitor"]))
+			if err != nil{
+				e.Code = 500
+				e.Status = "key monitor json failed"
+				e.Error(l,"json  monitor data is unmarsha failed")
+			}else {
+				return a
+			}
 		}
 	}
+	time.Sleep(0.00001)
+	return nil
+}
+
+func JsonUnMarshal(data []byte)(map[string]string,error){
+	temp := make(map[string]string)
+	err := json.Unmarshal(data,&temp)
+	if err != nil{
+		fmt.Println(err.Error())
+		return nil,err
+	}
+	return temp,nil
 }
