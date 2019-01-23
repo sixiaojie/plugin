@@ -31,3 +31,4 @@
 {"Code":{},"Status":{},"level":"error","msg":"json  monitor data is unmarsha failed","time":"2019-01-18T16:33:06+08:00"}
 {"Code":{},"Status":{},"level":"error","msg":"json  monitor data is unmarsha failed","time":"2019-01-18T16:33:35+08:00"}
 {"Code":{},"Status":{},"level":"error","msg":"json  monitor data is unmarsha failed","time":"2019-01-18T16:33:38+08:00"}
+{"Code":{},"Status":{},"level":"error","msg":"Get http://127.0.0.1:9003/configfiles/json/SampleApp/default/application: dial tcp 127.0.0.1:9003: getsockopt: connection refused","time":"2019-01-23T16:34:15+08:00"}

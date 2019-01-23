@@ -4,28 +4,41 @@ import (
 	"os/exec"
 	"bytes"
 	"strings"
+	"time"
+	"fmt"
 )
 
 func Statis(data map[string]string)(string){
-	res := ""
-	out := make(chan string)
+	channel := make(chan map[string]string)
+	fmt.Println(data)
 	for k,v := range(data){
-		a,_ := Command(k,v,out)
-		res += k+ " "+a + "\n"
+		 go Command(k,v,channel)
+		//res += k+ " "+a + "\n"
 	}
-
+	res := ""
+	go func(){
+		for {
+			a := <- channel
+			for k,v := range(a){
+				res += k + " "+v + "\n"
+			}
+		}
+	}()
+	time.Sleep(30e9)
 	return res
 }
 
-func Command(k,v string,o chan string)(string,error){
+func Command(k,v string,in chan map[string]string){
+	result := make(map[string]string)
 	cmd := exec.Command("/bin/bash","-c",v)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil{
-		return "0",err
+		fmt.Println(err.Error())
 	}else {
-		return strings.TrimSpace(out.String()),nil
+		result[k] = strings.TrimSpace(out.String())
 	}
+	in <- result
 }
 

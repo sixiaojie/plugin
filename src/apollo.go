@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 
@@ -43,7 +42,6 @@ func ApolloClient(c *ServiceConfg, l *logrus.Logger)(map[string]string){
 			}
 		}
 	}
-	time.Sleep(0.00001)
 	return nil
 }
 
