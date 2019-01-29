@@ -17,12 +17,12 @@ func main() {
 	}
 	r := gin.Default()
 	r.GET("/metrics",func(c *gin.Context){
-		//data := src.ApolloClient(s,l)
-		//if data == nil{
-			//c.JSON(200,gin.H{"message":"error"})
-		//}
-		//c.String(200,src.Statis(data))
-		c.String(200,"hello")
+		data := src.ApolloClient(s,l)
+		if data == nil{
+			c.JSON(200,gin.H{"message":"error"})
+		}
+		c.String(200,src.Statis(data))
+		//c.String(200,"hello")
 	})
 	r.Run()
 }

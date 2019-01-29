@@ -6,23 +6,31 @@ import(
 	"bytes"
 )
 
-type Callback func() string
-
-func funclist(callback Callback) string{
-	return callback()
+func Statistics() string{
+	base := ","
+	funclist := map[string]string{"hostname":"hostname","system_v":"uname -r"}
+	for k,v := range funclist{
+		base += k+":"+"\""+Cmd(v)+"\","
+	}
+	return base
 }
+
 
 func hostname()(string){
-	cmd := exec.Command("/bin/bash","-c","hostname")
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	err := cmd.Run()
-	if err != nil{
-		return "unknown"
-	}
-	return strings.TrimSpace(out.String())
+	return Cmd("hostname")
 }
 
-func Gather() {
+func system_v() string{
+	return Cmd("uname -r")
+}
 
+func Cmd(shell string) string{
+    cmd := exec.Command("/bin/bash","-c",shell)
+    var out bytes.Buffer
+    cmd.Stdout = &out
+    err := cmd.Run()
+    if err != nil{
+    	return "unknown"
+	}
+	return strings.TrimSpace(out.String())
 }
