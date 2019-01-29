@@ -18,7 +18,7 @@ func(l *LogFormat) MakeMap()( logrus.Fields){
 	typeoff := s.Type()
 	for i := 0; i < s.NumField(); i++{
 		f := s.Field(i)
-		data[typeoff.Field(i).Name] = f
+		data[typeoff.Field(i).Name] = f.Interface()
 	}
 	return data
 }

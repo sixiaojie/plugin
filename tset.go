@@ -1,16 +1,11 @@
 package main
 
-import "net/http"
+import "plugin/src"
 
 func main(){
-	for {
-		go func() {
-			get()
-		}()
-	}
-
+	s := src.Config("conf/config.ini")
+	e := src.LogFormat{200,"ok"}
+	l,_ := src.Log(s.Logfile)
+	e.Error(l,"hello")
 }
 
-func get(){
-	http.Get("http://127.0.0.1:8080/metrics")
-}
