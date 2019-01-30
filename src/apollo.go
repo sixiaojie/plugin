@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"fmt"
+	"time"
 )
 
 
@@ -43,6 +44,14 @@ func ApolloClient(c *ServiceConfg, l *logrus.Logger)(map[string]string){
 		}
 	}
 	return nil
+}
+
+func CacheConf(data *map[string]string,intervals int,c *ServiceConfg, l *logrus.Logger) map[string]string{
+	second := time.Now().Second()
+	if second % intervals == 0 {
+		return ApolloClient(c,l)
+	}
+	return *data
 }
 
 func JsonUnMarshal(data []byte)(map[string]string,error){

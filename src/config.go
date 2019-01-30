@@ -11,6 +11,7 @@ type ServiceConfg struct {
 	ClusterName string
 	NamespaceName string
 	Logfile string
+	Intervals string
 }
 
 
