@@ -3,9 +3,14 @@ import(
 	"plugin/src"
 	"github.com/gin-gonic/gin"
 	"strconv"
+	"fmt"
 )
 
+var data map[string]string
+
+
 func main() {
+	fmt.Println(data)
 	s := src.Config("conf/config.ini")
 	e := src.LogFormat{200,"ok"}
 	l,err := src.Log(s.Logfile)
@@ -19,8 +24,8 @@ func main() {
 	data := src.ApolloClient(s,l)
 	intervals ,_:= strconv.Atoi(s.Intervals)
 	r := gin.Default()
+	go src.Changevalue(&data,s,l,intervals)
 	r.GET("/metrics",func(c *gin.Context){
-		data := src.CacheConf(&data,intervals,s,l)
 		if data == nil{
 			c.JSON(200,gin.H{"message":"error"})
 		}
@@ -29,3 +34,5 @@ func main() {
 	})
 	r.Run(":8081")
 }
+
+

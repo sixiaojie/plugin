@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+	"strconv"
 )
 
 
@@ -46,12 +47,25 @@ func ApolloClient(c *ServiceConfg, l *logrus.Logger)(map[string]string){
 	return nil
 }
 
-func CacheConf(data *map[string]string,intervals int,c *ServiceConfg, l *logrus.Logger) map[string]string{
+func CacheConf(data map[string]string,intervals int,c *ServiceConfg, l *logrus.Logger) map[string]string{
 	second := time.Now().Second()
 	if second % intervals == 0 {
-		return ApolloClient(c,l)
+		inter,_ := strconv.Atoi(data["intervals"])
+		if inter < second{
+			data = ApolloClient(c,l)
+			data["intervals"] = strconv.Itoa(second)
+			return data
+		}
+		return data
 	}
-	return *data
+	return data
+}
+
+func Changevalue(data *map[string]string,c *ServiceConfg, l *logrus.Logger,intervals int){
+	for {
+		*data = ApolloClient(c, l)
+		time.Sleep(time.Duration(intervals) * time.Second)
+	}
 }
 
 func JsonUnMarshal(data []byte)(map[string]string,error){
