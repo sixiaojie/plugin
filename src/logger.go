@@ -29,7 +29,7 @@ func Log(path string)(*logrus.Logger,error) {
 	if err != nil{
 		return log,err
 	}
-
+	defer f.Close()
 	log.Out = f
 	log.Formatter = &logrus.JSONFormatter{}
 	return log,nil
