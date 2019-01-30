@@ -21,7 +21,6 @@ func main() {
 	if err != nil{
 		panic(err)
 	}
-	data := src.ApolloClient(s,l)
 	intervals ,_:= strconv.Atoi(s.Intervals)
 	r := gin.Default()
 	go src.Changevalue(&data,s,l,intervals)
