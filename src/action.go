@@ -10,7 +10,6 @@ import (
 
 func Statis(data map[string]string)(string){
 	channel := make(chan map[string]string)
-	fmt.Println(data)
 	for k,v := range(data){
 		k = strings.Replace(k,"}",base,-1)
 		k = strings.Trim(k,",") + "}"
@@ -26,7 +25,7 @@ func Statis(data map[string]string)(string){
 			}
 		}
 	}()
-	time.Sleep(30e9)
+	time.Sleep(500e8)
 	return res
 }
 
