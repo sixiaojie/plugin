@@ -32,7 +32,8 @@ func Statis(data map[string]string)(string){
 
 func Command(k,v string,in chan map[string]string){
 	result := make(map[string]string)
-	cmd := exec.Command("/bin/bash","-c",v)
+	//cmd := exec.Command("/bin/bash","-c",v)
+	cmd := exec.Command("ls")
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	err := cmd.Run()
