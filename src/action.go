@@ -25,7 +25,7 @@ func Statis(data map[string]string)(string){
 			}
 		}
 	}()
-	time.Sleep(500e8)
+	time.Sleep(5e8)
 	return res
 }
 
