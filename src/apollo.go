@@ -13,6 +13,9 @@ import (
 
 func ApolloClient(c *ServiceConfg, l *logrus.Logger)(map[string]string){
 	e := LogFormat{}
+	e.Code=200
+	e.Status="test"
+	e.Info(l,"test")
 	url := "http://" + c.Server + "/configfiles/json/" + c.Appid + "/" + c.ClusterName + "/" + c.NamespaceName
 	resp,err := http.Get(url)
 	if err != nil{
